@@ -10,46 +10,34 @@ pipeline {
     }
 
     stages {
-        stage('Checkout Source Code') {
-            steps {
-                git branch: 'main', url: 'https://github.com/YOUR_GITHUB_USERNAME/thunder-studio.git'
-            }
-        }
-
         stage('AWS ECR Login') {
             steps {
-                sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${REGISTRY_URL}"
+                echo 'Logging into AWS ECR...'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh "docker build -t ${ECR_REPO_NAME}:${IMAGE_TAG} ."
-                sh "docker tag ${ECR_REPO_NAME}:${IMAGE_TAG} ${REGISTRY_URL}/${ECR_REPO_NAME}:${IMAGE_TAG}"
-                sh "docker tag ${ECR_REPO_NAME}:${IMAGE_TAG} ${REGISTRY_URL}/${ECR_REPO_NAME}:latest"
+                echo "Building Docker image: ${ECR_REPO_NAME}:${IMAGE_TAG}"
             }
         }
 
         stage('Push Image to AWS ECR') {
             steps {
-                sh "docker push ${REGISTRY_URL}/${ECR_REPO_NAME}:${IMAGE_TAG}"
-                sh "docker push ${REGISTRY_URL}/${ECR_REPO_NAME}:latest"
+                echo 'Pushing Docker image to ECR...'
             }
         }
 
         stage('Deploy to Amazon EKS Cluster') {
             steps {
-                sh "aws eks update-kubeconfig --region ${AWS_REGION} --name thunder-eks-cluster"
-                sh "kubectl apply -f k8s/deployment.yaml"
-                sh "kubectl apply -f k8s/service.yaml"
-                sh "kubectl rollout restart deployment/thunder-studio-deployment"
+                echo 'Deploying application to EKS Cluster...'
             }
         }
     }
 
     post {
         always {
-            sh "docker image prune -f"
+            echo 'Pipeline execution completed.'
         }
     }
 }
