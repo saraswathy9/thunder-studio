@@ -1,0 +1,35 @@
+a{% extends "base.html" %}
+{% block title %}Sign up — Thunder Studio{% endblock %}
+{% block body_class %}auth-body{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='auth.css') }}">{% endblock %}
+{% block nav %}{% endblock %}
+{% block content %}
+    <main class="auth-wrap">
+        <a href="{{ url_for('index') }}" class="auth-brand">Thunder Studio</a>
+
+        <div class="auth-card">
+            <p class="eyebrow">Get started</p>
+            <h1 class="auth-title">Create your account</h1>
+            <p class="auth-subtitle">Join Thunder Studio and start building.</p>
+
+            <form class="auth-form" method="post" autocomplete="on">
+                <label class="field">
+                    <span class="field-label">Full name</span>
+                    <input type="text" name="name" placeholder="Your name" value="{{ name or '' }}" required>
+                </label>
+                <label class="field">
+                    <span class="field-label">Email</span>
+                    <input type="email" name="email" placeholder="you@example.com" value="{{ email or '' }}" required>
+                </label>
+                <label class="field">
+                    <span class="field-label">Password</span>
+                    <input type="password" name="password" placeholder="Create a password" required minlength="8">
+                </label>
+                <button type="submit" class="btn btn-primary auth-submit">Sign up</button>
+            </form>
+
+            <p class="auth-switch">Already have an account? <a href="{{ url_for('login') }}">Log in</a></p>
+        </div>
+    </main>
+{% endblock %}
+

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Admin — Thunder Studio{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='pages.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+{% endblock %}
+{% block content %}
+    <main class="page-main">
+        <div class="page-header">
+            <p class="eyebrow">Admin</p>
+            <h1 class="title">Dashboard</h1>
+        </div>
+
+        <div class="admin-nav">
+            <a href="{{ url_for('admin_dashboard') }}" class="admin-nav-link active">Overview</a>
+            <a href="{{ url_for('admin_services') }}" class="admin-nav-link">Services</a>
+            <a href="{{ url_for('admin_gallery') }}" class="admin-nav-link">Gallery</a>
+            <a href="{{ url_for('admin_bookings') }}" class="admin-nav-link">Bookings</a>
+        </div>
+
+        <div class="stat-grid">
+            <div class="stat-card"><span class="stat-num">{{ stats.users }}</span><span class="stat-label">Users</span></div>
+            <div class="stat-card"><span class="stat-num">{{ stats.services }}</span><span class="stat-label">Services</span></div>
+            <div class="stat-card"><span class="stat-num">{{ stats.gallery }}</span><span class="stat-label">Gallery items</span></div>
+            <div class="stat-card"><span class="stat-num">{{ stats.bookings }}</span><span class="stat-label">Total bookings</span></div>
+            <div class="stat-card highlight"><span class="stat-num">{{ stats.new_bookings }}</span><span class="stat-label">New requests</span></div>
+        </div>
+
+        <h2 class="admin-section-title">Recent bookings</h2>
+        {% if recent %}
+        <div class="table-wrap">
+            <table class="data-table">
+                <thead><tr><th>Name</th><th>Service</th><th>Requested</th><th>Status</th></tr></thead>
+                <tbody>
+                {% for b in recent %}
+                    <tr>
+                        <td>{{ b.name }}</td>
+                        <td>{{ b.service.title if b.service else '—' }}</td>
+                        <td>{{ b.created_at.strftime('%d %b %Y') }}</td>
+                        <td><span class="status-pill status-{{ b.status }}">{{ b.status }}</span></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="empty-state">No bookings yet.</p>
+        {% endif %}
+    </main>
+{% endblock %}
+

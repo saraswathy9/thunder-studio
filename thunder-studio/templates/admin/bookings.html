@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Manage Bookings — Thunder Studio{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='pages.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+{% endblock %}
+{% block content %}
+    <main class="page-main">
+        <div class="page-header">
+            <p class="eyebrow">Admin</p>
+            <h1 class="title">Bookings</h1>
+        </div>
+
+        <div class="admin-nav">
+            <a href="{{ url_for('admin_dashboard') }}" class="admin-nav-link">Overview</a>
+            <a href="{{ url_for('admin_services') }}" class="admin-nav-link">Services</a>
+            <a href="{{ url_for('admin_gallery') }}" class="admin-nav-link">Gallery</a>
+            <a href="{{ url_for('admin_bookings') }}" class="admin-nav-link active">Bookings</a>
+        </div>
+
+        <div class="table-wrap">
+            <table class="data-table">
+                <thead>
+                    <tr><th>Requested</th><th>Name</th><th>Email</th><th>Phone</th><th>Service</th><th>Event date</th><th>Message</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                {% for b in bookings %}
+                    <tr>
+                        <td>{{ b.created_at.strftime('%d %b %Y') }}</td>
+                        <td>{{ b.name }}</td>
+                        <td>{{ b.email }}</td>
+                        <td>{{ b.phone or '—' }}</td>
+                        <td>{{ b.service.title if b.service else '—' }}</td>
+                        <td>{{ b.event_date or '—' }}</td>
+                        <td class="msg-cell">{{ b.message or '—' }}</td>
+                        <td>
+                            <form method="post" action="{{ url_for('admin_booking_status', booking_id=b.id) }}" class="status-form">
+                                <select name="status" onchange="this.form.submit()">
+                                    {% for st in ['new', 'contacted', 'confirmed', 'declined'] %}
+                                    <option value="{{ st }}" {% if b.status == st %}selected{% endif %}>{{ st }}</option>
+                                    {% endfor %}
+                                </select>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="8" class="empty-state">No bookings yet.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+{% endblock %}
+

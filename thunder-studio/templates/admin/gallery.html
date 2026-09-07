@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Manage Gallery — Thunder Studio{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='pages.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+{% endblock %}
+{% block content %}
+    <main class="page-main">
+        <div class="page-header">
+            <p class="eyebrow">Admin</p>
+            <h1 class="title">Gallery</h1>
+        </div>
+
+        <div class="admin-nav">
+            <a href="{{ url_for('admin_dashboard') }}" class="admin-nav-link">Overview</a>
+            <a href="{{ url_for('admin_services') }}" class="admin-nav-link">Services</a>
+            <a href="{{ url_for('admin_gallery') }}" class="admin-nav-link active">Gallery</a>
+            <a href="{{ url_for('admin_bookings') }}" class="admin-nav-link">Bookings</a>
+        </div>
+
+        <div class="admin-toolbar">
+            <a href="{{ url_for('admin_gallery_new') }}" class="btn btn-primary">+ New item</a>
+        </div>
+
+        <div class="table-wrap">
+            <table class="data-table">
+                <thead><tr><th>Order</th><th>Category</th><th>Label</th><th>Image?</th><th></th></tr></thead>
+                <tbody>
+                {% for item in items %}
+                    <tr>
+                        <td>{{ item.sort_order }}</td>
+                        <td>{{ item.category }}</td>
+                        <td>{{ item.label }}</td>
+                        <td>{{ 'Yes' if item.image_url else 'Color block' }}</td>
+                        <td class="row-actions">
+                            <a href="{{ url_for('admin_gallery_edit', item_id=item.id) }}">Edit</a>
+                            <form method="post" action="{{ url_for('admin_gallery_delete', item_id=item.id) }}"
+                                  onsubmit="return confirm('Delete this item?');">
+                                <button type="submit" class="link-btn danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="5" class="empty-state">No gallery items yet.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+{% endblock %}
+

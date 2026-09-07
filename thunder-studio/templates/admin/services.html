@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Manage Services — Thunder Studio{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='pages.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+{% endblock %}
+{% block content %}
+    <main class="page-main">
+        <div class="page-header">
+            <p class="eyebrow">Admin</p>
+            <h1 class="title">Services</h1>
+        </div>
+
+        <div class="admin-nav">
+            <a href="{{ url_for('admin_dashboard') }}" class="admin-nav-link">Overview</a>
+            <a href="{{ url_for('admin_services') }}" class="admin-nav-link active">Services</a>
+            <a href="{{ url_for('admin_gallery') }}" class="admin-nav-link">Gallery</a>
+            <a href="{{ url_for('admin_bookings') }}" class="admin-nav-link">Bookings</a>
+        </div>
+
+        <div class="admin-toolbar">
+            <a href="{{ url_for('admin_service_new') }}" class="btn btn-primary">+ New service</a>
+        </div>
+
+        <div class="table-wrap">
+            <table class="data-table">
+                <thead><tr><th>Order</th><th>Title</th><th>Price</th><th>Featured</th><th></th></tr></thead>
+                <tbody>
+                {% for s in services %}
+                    <tr>
+                        <td>{{ s.sort_order }}</td>
+                        <td>{{ s.icon }} {{ s.title }}</td>
+                        <td>{{ s.price_label }}</td>
+                        <td>{{ 'Yes' if s.featured else '—' }}</td>
+                        <td class="row-actions">
+                            <a href="{{ url_for('admin_service_edit', service_id=s.id) }}">Edit</a>
+                            <form method="post" action="{{ url_for('admin_service_delete', service_id=s.id) }}"
+                                  onsubmit="return confirm('Delete this service?');">
+                                <button type="submit" class="link-btn danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="5" class="empty-state">No services yet.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+{% endblock %}
+

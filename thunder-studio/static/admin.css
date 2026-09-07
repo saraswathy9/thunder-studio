@@ -1,0 +1,112 @@
+.admin-nav {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--surface);
+    padding-bottom: 0.75rem;
+}
+
+.admin-nav-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+}
+
+.admin-nav-link:hover {
+    color: var(--text);
+    background: var(--surface);
+}
+
+.admin-nav-link.active {
+    color: #1A1A1A;
+    background: var(--accent);
+}
+
+.admin-toolbar {
+    margin-bottom: 1.5rem;
+}
+
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.stat-card {
+    background: var(--surface);
+    border: 1px solid rgba(244, 208, 63, 0.08);
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.stat-card.highlight {
+    border-color: rgba(244, 208, 63, 0.4);
+}
+
+.stat-num {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    color: var(--accent);
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.admin-section-title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+
+.row-actions {
+    display: flex;
+    gap: 0.85rem;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.row-actions a {
+    color: var(--accent-blue);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+.link-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 0;
+}
+
+.link-btn.danger {
+    color: #ff6363;
+}
+
+.admin-form-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.status-form select {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: var(--text);
+    background: var(--bg);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 0.4rem 0.6rem;
+}

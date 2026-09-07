@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if service else 'New' }} Service — Thunder Studio{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='pages.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+{% endblock %}
+{% block content %}
+    <main class="page-main">
+        <div class="page-header">
+            <p class="eyebrow">Admin</p>
+            <h1 class="title">{{ 'Edit Service' if service else 'New Service' }}</h1>
+        </div>
+
+        <form method="post" class="admin-form">
+            <div class="booking-grid">
+                <label class="field">
+                    <span class="field-label">Icon (emoji/symbol)</span>
+                    <input type="text" name="icon" value="{{ service.icon if service else '✦' }}">
+                </label>
+                <label class="field">
+                    <span class="field-label">Title</span>
+                    <input type="text" name="title" value="{{ service.title if service else '' }}" required>
+                </label>
+                <label class="field field-wide">
+                    <span class="field-label">Description</span>
+                    <textarea name="description" rows="3" required>{{ service.description if service else '' }}</textarea>
+                </label>
+                <label class="field field-wide">
+                    <span class="field-label">Features (one per line)</span>
+                    <textarea name="features" rows="4">{{ service.features if service else '' }}</textarea>
+                </label>
+                <label class="field">
+                    <span class="field-label">Price label</span>
+                    <input type="text" name="price_label" value="{{ service.price_label if service else '' }}" placeholder="Starting at ₹45,000" required>
+                </label>
+                <label class="field">
+                    <span class="field-label">Badge (optional)</span>
+                    <input type="text" name="badge" value="{{ service.badge if service else '' }}" placeholder="Most Popular">
+                </label>
+                <label class="field">
+                    <span class="field-label">Sort order</span>
+                    <input type="number" name="sort_order" value="{{ service.sort_order if service else 0 }}">
+                </label>
+                <label class="field checkbox-field">
+                    <input type="checkbox" name="featured" {% if service and service.featured %}checked{% endif %}>
+                    <span class="field-label">Featured card</span>
+                </label>
+            </div>
+            <div class="admin-form-actions">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a href="{{ url_for('admin_services') }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </main>
+{% endblock %}
+

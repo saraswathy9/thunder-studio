@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Book a Session — Thunder Studio{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='pages.css') }}">{% endblock %}
+{% block content %}
+    <main class="page-main">
+        <div class="page-header">
+            <p class="eyebrow">Let's talk</p>
+            <h1 class="title">Book a Session</h1>
+            <p class="subtitle">Tell us a little about your day and we'll get back to you within 48 hours.</p>
+        </div>
+
+        <form class="booking-form" method="post">
+            <div class="booking-grid">
+                <label class="field">
+                    <span class="field-label">Full name</span>
+                    <input type="text" name="name" placeholder="Your name"
+                           value="{{ current_user.name if current_user.is_authenticated else '' }}" required>
+                </label>
+                <label class="field">
+                    <span class="field-label">Email</span>
+                    <input type="email" name="email" placeholder="you@example.com"
+                           value="{{ current_user.email if current_user.is_authenticated else '' }}" required>
+                </label>
+                <label class="field">
+                    <span class="field-label">Phone (optional)</span>
+                    <input type="tel" name="phone" placeholder="+91 98765 43210">
+                </label>
+                <label class="field">
+                    <span class="field-label">Event date (optional)</span>
+                    <input type="date" name="event_date">
+                </label>
+                <label class="field field-wide">
+                    <span class="field-label">Which service?</span>
+                    <select name="service_id">
+                        <option value="">Not sure yet</option>
+                        {% for s in services %}
+                        <option value="{{ s.id }}" {% if selected_service_id == s.id %}selected{% endif %}>{{ s.title }} — {{ s.price_label }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label class="field field-wide">
+                    <span class="field-label">Tell us about your day</span>
+                    <textarea name="message" rows="5" placeholder="Venue, guest count, vibe you're going for..."></textarea>
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary">Send request</button>
+        </form>
+    </main>
+{% endblock %}
+

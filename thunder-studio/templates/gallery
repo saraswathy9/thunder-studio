@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Gallery — Thunder Studio{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='pages.css') }}">{% endblock %}
+{% block content %}
+    <main class="page-main">
+        <div class="page-header">
+            <p class="eyebrow">Our work</p>
+            <h1 class="title">Gallery</h1>
+            <p class="subtitle">Every frame is a moment frozen in light — real emotions, real people, real love.</p>
+        </div>
+
+        <div class="gallery-filters">
+            <button class="filter-btn active" onclick="filterGallery('all', this)">All</button>
+            {% for cat in categories %}
+            <button class="filter-btn" onclick="filterGallery('{{ cat }}', this)">{{ cat|capitalize }}</button>
+            {% endfor %}
+        </div>
+
+        <div class="gallery-grid" id="galleryGrid">
+            {% for item in items %}
+            <div class="gallery-item" data-cat="{{ item.category }}">
+                {% if item.image_url %}
+                <div class="gallery-placeholder" style="--h:{{ item.height }}px; background-image:url('{{ item.image_url }}'); background-size:cover; background-position:center;">
+                    <span class="gp-label">{{ item.label }}</span>
+                </div>
+                {% else %}
+                <div class="gallery-placeholder" style="--h:{{ item.height }}px; --c:{{ item.color }};">
+                    <span class="gp-label">{{ item.label }}</span>
+                </div>
+                {% endif %}
+            </div>
+            {% else %}
+            <p class="empty-state">Photos coming soon.</p>
+            {% endfor %}
+        </div>
+
+        <p class="gallery-note">Add real photos any time from the <a href="{{ url_for('admin_gallery') }}">admin panel</a>.</p>
+
+        <div class="page-cta">
+            <p>Love what you see?</p>
+            <a href="{{ url_for('signup') }}" class="btn btn-primary">Book Your Session</a>
+        </div>
+    </main>
+{% endblock %}
+{% block extra_js %}
+<script>
+    function filterGallery(cat, btn) {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            const match = cat === 'all' || item.dataset.cat === cat;
+            item.style.opacity = match ? '1' : '0.15';
+            item.style.pointerEvents = match ? 'auto' : 'none';
+        });
+    }
+</script>
+{% endblock %}
+

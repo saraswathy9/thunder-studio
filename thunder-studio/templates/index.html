@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Thunder Studio{% endblock %}
+{% block content %}
+    <main class="hero">
+        <p class="eyebrow">Thunder Studio</p>
+        <h1 class="title">Your story, told in<br>light strike.</h1>
+        <p class="subtitle">A wedding photography studio built for emotion, artistry, and legacy — turning your day into images that last forever.</p>
+
+        <div class="actions">
+            <a href="{{ url_for('services') }}" class="btn btn-primary">Our Services</a>
+            <a href="{{ url_for('gallery') }}" class="btn btn-secondary">View Gallery</a>
+        </div>
+    </main>
+{% endblock %}
+

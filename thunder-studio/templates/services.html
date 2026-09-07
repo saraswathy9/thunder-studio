@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Services — Thunder Studio{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='pages.css') }}">{% endblock %}
+{% block content %}
+    <main class="page-main">
+        <div class="page-header">
+            <p class="eyebrow">What we offer</p>
+            <h1 class="title">Our Services</h1>
+            <p class="subtitle">Every package is crafted to tell your unique story with intention and artistry.</p>
+        </div>
+
+        <div class="services-grid">
+            {% for s in services %}
+            <div class="service-card {% if s.featured %}featured{% endif %}">
+                {% if s.badge %}<div class="service-badge">{{ s.badge }}</div>{% endif %}
+                <div class="service-icon">{{ s.icon }}</div>
+                <h2>{{ s.title }}</h2>
+                <p>{{ s.description }}</p>
+                <ul>
+                    {% for f in s.feature_list() %}<li>{{ f }}</li>{% endfor %}
+                </ul>
+                <span class="service-price">{{ s.price_label }}</span>
+                <a href="{{ url_for('book', service_id=s.id) }}" class="btn btn-secondary service-book-btn">Book this</a>
+            </div>
+            {% else %}
+            <p class="empty-state">Services will appear here soon.</p>
+            {% endfor %}
+        </div>
+
+        <div class="page-cta">
+            <p>Not sure which package fits?</p>
+            <a href="{{ url_for('book') }}" class="btn btn-primary">Book a Free Consultation</a>
+        </div>
+    </main>
+{% endblock %}
+

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: thunder-studio-deployment
+  labels:
+    app: thunder-studio
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: thunder-studio
+  template:
+    metadata:
+      labels:
+        app: thunder-studio
+    spec:
+      containers:
+      - name: thunder-studio
+        image: 123456789012.dkr.ecr.us-east-1.amazonaws.com/thunder-studio:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+        env:
+        - name: SECRET_KEY
+          value: "prod_secret_key_thunder_studio_123"

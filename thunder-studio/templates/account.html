@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}My Bookings — Thunder Studio{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{{ url_for('static', filename='pages.css') }}">{% endblock %}
+{% block content %}
+    <main class="page-main">
+        <div class="page-header">
+            <p class="eyebrow">Hi {{ current_user.name }}</p>
+            <h1 class="title">My Bookings</h1>
+        </div>
+
+        {% if bookings %}
+        <div class="table-wrap">
+            <table class="data-table">
+                <thead>
+                    <tr><th>Requested</th><th>Service</th><th>Event date</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                    {% for b in bookings %}
+                    <tr>
+                        <td>{{ b.created_at.strftime('%d %b %Y') }}</td>
+                        <td>{{ b.service.title if b.service else 'General consultation' }}</td>
+                        <td>{{ b.event_date or '—' }}</td>
+                        <td><span class="status-pill status-{{ b.status }}">{{ b.status }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="empty-state">You haven't made any booking requests yet.</p>
+        {% endif %}
+
+        <div class="page-cta">
+            <a href="{{ url_for('book') }}" class="btn btn-primary">Book another session</a>
+        </div>
+    </main>
+{% endblock %}
+

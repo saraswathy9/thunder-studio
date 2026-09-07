@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if item else 'New' }} Gallery Item — Thunder Studio{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='pages.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+{% endblock %}
+{% block content %}
+    <main class="page-main">
+        <div class="page-header">
+            <p class="eyebrow">Admin</p>
+            <h1 class="title">{{ 'Edit Gallery Item' if item else 'New Gallery Item' }}</h1>
+        </div>
+
+        <form method="post" class="admin-form">
+            <div class="booking-grid">
+                <label class="field">
+                    <span class="field-label">Category</span>
+                    <select name="category">
+                        {% for cat in ['wedding', 'prewedding', 'portrait'] %}
+                        <option value="{{ cat }}" {% if item and item.category == cat %}selected{% endif %}>{{ cat }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label class="field">
+                    <span class="field-label">Label</span>
+                    <input type="text" name="label" value="{{ item.label if item else '' }}" placeholder="Wedding · Ceremony" required>
+                </label>
+                <label class="field">
+                    <span class="field-label">Placeholder color (hex)</span>
+                    <input type="text" name="color" value="{{ item.color if item else '#1a2535' }}">
+                </label>
+                <label class="field">
+                    <span class="field-label">Card height (px)</span>
+                    <input type="number" name="height" value="{{ item.height if item else 280 }}">
+                </label>
+                <label class="field field-wide">
+                    <span class="field-label">Image URL (optional — leave blank to use color block)</span>
+                    <input type="text" name="image_url" value="{{ item.image_url if item else '' }}" placeholder="https://...">
+                </label>
+                <label class="field">
+                    <span class="field-label">Sort order</span>
+                    <input type="number" name="sort_order" value="{{ item.sort_order if item else 0 }}">
+                </label>
+            </div>
+            <div class="admin-form-actions">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a href="{{ url_for('admin_gallery') }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </main>
+{% endblock %}
+
