@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        AWS_ACCOUNT_ID = '123456789012'
+        AWS_ACCOUNT_ID = '182719847108'
         AWS_REGION     = 'us-east-1'
         ECR_REPO_NAME  = 'thunder-studio'
         IMAGE_TAG      = "${BUILD_NUMBER}"
